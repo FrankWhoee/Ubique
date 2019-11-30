@@ -28,7 +28,10 @@ def main(article):
 
     soup = BeautifulSoup(zimply_article_request.content)
 
-    for image in soup('image'):
+    for image in soup.find_all(['image', 'img']):
         image.decompose()
+
+    for extra_tags in soup.find_all(['b', 'a']):
+        extra_tags.unwrap()
 
     return str(soup)
