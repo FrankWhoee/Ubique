@@ -1,4 +1,5 @@
 import requests
+import os
 import json
 
 from bs4 import BeautifulSoup
@@ -23,20 +24,39 @@ def search_wikipedia():
     return json.dumps(links)
 
 @app.route('/book_search')
-def search_wikipedia():
-    query = request.args.get('q')
+def search_books():
+    keyword = request.args.get('q')
+    if not os.path.isdir("books"):
+        print("No books directory found. Exiting...")
+        return
+    directory = os.fsencode("books")
+    possible_files = {}
+    for file in os.listdir(directory):
+        filename = os.fsdecode(file)
+        if filename.endswith(".json"):
+            with open("books/" + filename) as json_file:
+                data = json.load(json_file)
+                text = data['text']
+                if keyword in text:
+                    index = text.find(keyword)
 
-    zimply_request = requests.get('http://localhost:9454/?q={}'.format(query))
-    soup = BeautifulSoup(zimply_request.content)
+                    possible_files[filename] = text[index:index + 20] + "..."
+        else:
+            continue
 
-    links = {}
+    return json.dumps(possible_files)
 
-    for link in soup.findAll('a'):
-        href = link.get('href')
+@app.route('/book/<book>')
+def search_books():
+    id = request.args.get('q')
+    text = ""
+    if not os.path.isdir("books"):
+        print("No books directory found. Exiting...")
+        return
+    with open("books/" + str(id) + '.json', 'r') as file:
+        text = file.read()
 
-        links[link.text] = "/{}".format(href)
-
-    return json.dumps(links)
+    return text
 
 @app.route('/<article>')
 def main(article):
