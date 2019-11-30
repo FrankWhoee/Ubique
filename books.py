@@ -1,7 +1,10 @@
 from gutenberg.acquire import load_etext
 from gutenberg.cleanup import strip_headers
-
+import os
 import json
+
+if not os.path.isdir("books"):
+    os.mkdir("books")
 
 for i in range(0,100000):
     try:
