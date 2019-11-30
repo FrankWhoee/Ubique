@@ -26,4 +26,9 @@ def search_wikipedia():
 def main(article):
     zimply_article_request = requests.get('http://localhost:9454/{}'.format(article))
 
-    return zimply_article_request.content
+    soup = BeautifulSoup(zimply_article_request.content)
+
+    for image in soup('image'):
+        image.decompose()
+
+    return str(soup)
