@@ -47,7 +47,7 @@ def search_books():
     return json.dumps(possible_files)
 
 @app.route('/book/<book>')
-def search_books():
+def book_get():
     id = request.args.get('q')
     text = ""
     if not os.path.isdir("books"):
