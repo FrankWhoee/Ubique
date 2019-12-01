@@ -9,6 +9,10 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
+    return render_template("index.html")
+
+@app.route("/wiki_search")
+def search():
     return render_template("wiki_search.html")
 
 @app.route("/book_searcher")
@@ -22,6 +26,8 @@ def send_assets(path):
 @app.route('/search_wikipedia')
 def search_wikipedia():
     query = request.args.get('q')
+    if not query:
+        return render_template("wiki_results.html", links="", error="Please specify a search.")
     error = ""
 
     zimply_request = requests.get('http://localhost:9454/?q={}'.format(query))

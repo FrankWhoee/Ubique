@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{title}}{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block content %}
+
+<div class="container">
+        <div class="jumbotron">
+            <h1>Welcome to Ublique!</h1>
+            <p>Start by searching one of the offline sources: </p>
+            <ul>
+                <li><a href="/wiki_search">Wikipedia</a></li>
+                <li><a href="/book_searcher">Books</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+    
