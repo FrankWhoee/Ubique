@@ -4,12 +4,16 @@ import json
 
 from bs4 import BeautifulSoup
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_from_directory
 app = Flask(__name__)
 
 @app.route("/")
 def index():
     return render_template("wiki_search.html")
+
+@app.route('/assets/<path>')
+def send_assets(path):
+    return send_from_directory('assets', path)
 
 @app.route('/search_wikipedia')
 def search_wikipedia():
