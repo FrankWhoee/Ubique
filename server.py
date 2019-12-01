@@ -48,24 +48,22 @@ def search_books():
                 text = data['text']
                 if keyword in text:
                     index = text.find(keyword)
-
-                    possible_files[filename] = text[index:index + 20] + "..."
+                    possible_files[text[index:index + 20] + "..."] = filename[0:filename.find(".json")]
         else:
             continue
-
-    return json.dumps(possible_files)
+    print(possible_files)
+    return render_template("book_results.html", links=possible_files.items())
 
 @app.route('/book/<book>')
-def book_get():
-    id = request.args.get('q')
+def book_get(book):
     text = ""
     if not os.path.isdir("books"):
         print("No books directory found. Exiting...")
         return
-    with open("books/" + str(id) + '.json', 'r') as file:
+    with open("books/" + str(book) + '.json', 'r') as file:
         text = file.read()
-
-    return text
+    data = json.loads(text)
+    return render_template("book.html", text=data["text"])
 
 @app.route("/<article>")
 def article(article):
