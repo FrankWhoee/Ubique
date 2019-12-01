@@ -58,6 +58,10 @@ def book_get():
 
     return text
 
+@app.route("/<article>")
+def article(article):
+    return render_template("wiki.html", article_name=article)
+
 @app.route('/embed/<article>')
 def main(article):
     zimply_article_request = requests.get('http://localhost:9454/{}'.format(article))
