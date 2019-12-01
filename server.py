@@ -7,6 +7,10 @@ from bs4 import BeautifulSoup
 from flask import Flask, request, render_template
 app = Flask(__name__)
 
+@app.route("/")
+def index():
+    return render_template("wiki_search.html")
+
 @app.route('/search_wikipedia')
 def search_wikipedia():
     query = request.args.get('q')
@@ -21,7 +25,8 @@ def search_wikipedia():
 
         links[link.text] = "/{}".format(href)
 
-    return json.dumps(links)
+    # return json.dumps(links)
+    return render_template("wiki_results.html", links=links.items())
 
 @app.route('/book_search')
 def search_books():
