@@ -1,3 +1,3 @@
 from zimply import ZIMServer
 
-ZIMServer("wiki.zim")
+ZIMServer("/Volumes/kai-backup/wiki.zim")
