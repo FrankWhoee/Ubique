@@ -32,7 +32,7 @@ def search_wikipedia():
     counter = 0
     for link in soup.findAll('a'):
         if counter > 30:
-            continue
+            break
 
         href = link.get('href')
 

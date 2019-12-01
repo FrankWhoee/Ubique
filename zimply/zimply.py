@@ -768,7 +768,7 @@ class ZIMRequestHandler:
 
                 cursor = ZIMRequestHandler.reverse_index.cursor()
                 search_for = "* ".join(keywords) + "*"
-                cursor.execute("SELECT docid FROM papers WHERE title MATCH ?",
+                cursor.execute("SELECT docid FROM papers WHERE title MATCH ? LIMIT 30",
                                [search_for])
 
                 results = cursor.fetchall()
