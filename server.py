@@ -66,7 +66,7 @@ def article(article):
 def main(article):
     zimply_article_request = requests.get('http://localhost:9454/{}'.format(article))
 
-    soup = BeautifulSoup(zimply_article_request)
+    soup = BeautifulSoup(zimply_article_request.content)
 
     for image in soup.find_all(['img', 'image']):
         image.decompose()
