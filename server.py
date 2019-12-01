@@ -65,6 +65,12 @@ def article(article):
 @app.route('/embed/<article>')
 def main(article):
     zimply_article_request = requests.get('http://localhost:9454/{}'.format(article))
-    return zimply_article_request.content
+
+    soup = BeautifulSoup(zimply_article_request.content)
+
+    for image in soup.find_all(['img', 'image']):
+        image.decompose()
+
+    return str(soup)
 
     #return json.dumps({ 'title': title_e.text.strip(), 'body': body_e.text.strip() })
