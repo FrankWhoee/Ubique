@@ -71,6 +71,6 @@ def main(article):
     for image in soup.find_all(['img', 'image']):
         image.decompose()
 
-    return zimply_article_request.content
+    return str(soup)
 
     #return json.dumps({ 'title': title_e.text.strip(), 'body': body_e.text.strip() })
