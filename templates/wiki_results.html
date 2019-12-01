@@ -46,11 +46,13 @@
 				  </form>
 				</div>
 			  </nav>
-	<div class="container-fluid">
-            {% for key, value in links %}
-            <a href="{{value}}"> <h4>{{key}}</h4> </a>
-        
-         {% endfor %}
-</div>
+				<div class="container-fluid">
+					{% if links|length == 0 %}
+						<h1>No results found</h1>
+					{% endif %}
+					{% for key, value in links %}
+						<a href="{{value}}"><h4>{{key}}</h4></a>
+     	    {% endfor %}
+				</div>
 </body>
 </html>
