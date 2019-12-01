@@ -18,19 +18,27 @@ def send_assets(path):
 @app.route('/search_wikipedia')
 def search_wikipedia():
     query = request.args.get('q')
+    error = ""
 
     zimply_request = requests.get('http://localhost:9454/?q={}'.format(query))
     soup = BeautifulSoup(zimply_request.content)
 
     links = {}
 
+    counter = 0
     for link in soup.findAll('a'):
+        if counter > 30:
+            continue
+
         href = link.get('href')
 
         links[link.text] = "/{}".format(href)
+        counter += 1
 
+    if counter == 0:
+        error = "No results found."
     # return json.dumps(links)
-    return render_template("wiki_results.html", links=links.items())
+    return render_template("wiki_results.html", links=links.items(), error=error)
 
 @app.route('/book_search')
 def search_books():
