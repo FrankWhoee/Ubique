@@ -11,6 +11,10 @@ app = Flask(__name__)
 def index():
     return render_template("wiki_search.html")
 
+@app.route("/book_searcher")
+def yeet():
+    return render_template("book_searcher.html")
+
 @app.route('/assets/<path>')
 def send_assets(path):
     return send_from_directory('assets', path)
