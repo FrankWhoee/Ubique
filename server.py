@@ -44,6 +44,33 @@ def search_wikipedia():
     # return json.dumps(links)
     return render_template("wiki_results.html", links=links.items(), error=error)
 
+@app.route('/search_wikinews')
+def search_wikinews():
+    query = request.args.get('q')
+    error = ""
+
+    zimply_request = requests.get('http://localhost:9455/?q={}'.format(query))
+    soup = BeautifulSoup(zimply_request.content)
+
+    links = {}
+
+    counter = 0
+    for link in soup.findAll('a'):
+        if counter > 30:
+            break
+
+        href = link.get('href')
+
+        links[link.text] = "/news/{}".format(href)
+        counter += 1
+
+    if counter == 0:
+        error = "No results found."
+    # return json.dumps(links)
+    return render_template("wiki_results.html", links=links.items(), error=error)
+      
+
+
 @app.route('/book_search')
 def search_books():
     keyword = request.args.get('q')
@@ -93,3 +120,13 @@ def main(article):
     return str(soup)
 
     #return json.dumps({ 'title': title_e.text.strip(), 'body': body_e.text.strip() })
+
+@app.route("/news/<article>")
+def render_article(article):
+    return render_template("news.html", article_name=article)
+
+@app.route('/embed_news/<article>')
+def news_article(article):
+    zimply_article_request = requests.get('http://localhost:9455/{}'.format(article))
+
+    return zimply_article_request.content
