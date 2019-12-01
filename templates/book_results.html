@@ -5,6 +5,7 @@
 {% endblock %}
 {% block content %}
 <div class="container-fluid">
+    {{error}}
         {% for key, value in links %}
         <a href="/book/{{value}}"> <h4>{{key}}</h4> </a>
     

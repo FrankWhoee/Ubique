@@ -53,6 +53,9 @@ def search_wikipedia():
 @app.route('/book_search')
 def search_books():
     keyword = request.args.get('q')
+    if not keyword:
+        return render_template("book_results.html", links=[], error="Please specify a search.")
+
     if not os.path.isdir("books"):
         print("No books directory found. Exiting...")
         return
@@ -70,14 +73,17 @@ def search_books():
         else:
             continue
     print(possible_files)
-    return render_template("book_results.html", links=possible_files.items())
+    if not possible_files:
+        return render_template("book_results.html", links=[], error="No results found.")
+
+    return render_template("book_results.html", links=possible_files.items(), error="")
 
 @app.route('/book/<book>')
 def book_get(book):
     text = ""
     if not os.path.isdir("books"):
         print("No books directory found. Exiting...")
-        return
+        return render_template("book.html", text=data["text"], error="No book found")
     with open("books/" + str(book) + '.json', 'r') as file:
         text = file.read()
     data = json.loads(text)
